@@ -109,7 +109,6 @@ const formatResponseGTFS = (data) => {
     let item = {
       idBusSAE: eachBusLine?.agency_id ?? null,
       color: eachBusLine?.route_color ?? null,
-      features:["idBusStop", eachBusLine?.agency_id],
       desLocalCompany: null,
       localCompany: null,
     }

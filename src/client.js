@@ -25,21 +25,13 @@ const getLineasFromMongoGTFS = async (params) => {
       }
     },
     {
-      $lookup: {
-        from: "stop_times",
-        localField: "trip_id",
-        foreignField: "trip_id",
-        as: "stops"
-      }
+      $match: {
+        route_id: params.idBusSAE,
+      },
     },
     {
-      $lookup: {
-        from: "shapes",
-        localField: "shape_id",
-        foreignField: "shape_id",
-        as: "shapes"
-      }
-    }
+      $limit: 1,
+    },
   ]
 
   try {
@@ -50,9 +42,9 @@ const getLineasFromMongoGTFS = async (params) => {
     const database = client.db(mongoDbName);
     const collection = database.collection("TRIPS_GTFS");
     console.log(`filtrando por: ${JSON.stringify(pipeline)}`);
-    const stops = await collection.aggregate(pipeline).toArray();
-        
-    return JSON.parse(JSON.stringify(stops));
+    const resultado = await collection.aggregate(pipeline).toArray();
+    console.log(">>>> Imprime resultado", resultado);
+
   } catch (err) {
     console.log(`Error al intentar consultar a Mongo ${err}`);
     return err;
