@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ObtenerDetalleLinea-lambda-function
+
+  SAM Template for ObtenerDetalleLinea-lambda-function
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 60
+
+Resources:
+  LambdaFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          cloudfrontUrlEnvironment: 
+          cloudfrontUrlSwagger: 
+          endpoint:
+          version:
+          accessKeyId: 
+          secretAccessKey:
+          region: 
+          arnFunction: 
+          cloudfrontSae: 
+      Events:
+        ObtenerDetalleLinea:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /ObtenerDetalleLinea
+            Method: post
+        Swagger:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /ObtenerDetalleLinea/Swagger
+            Method: get

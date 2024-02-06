@@ -1,0 +1,205 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Permite obtener la información relativa a la línea en población o comunidad especifica.",
+    "version": "1.0.0",
+    "title": "OtenerDetalleLinea"
+  },
+  "host": "s60rmancpi.execute-api.us-east-2.amazonaws.com",
+  "basePath": "/v0",
+  "tags": [
+    {
+      "name": "ObtenerDetalleLinea",
+      "description": ""
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/ObtenerDetalleLinea": {
+      "post": {
+        "tags": [
+          "ObtenerDetalleLinea"
+        ],
+        "summary": "Detalle de linea",
+        "description": "Devuelve coordenadas para centrar el mapa, el zoom estimado, color de la línea, info de cada parada (coordenadas, nombre, id, nodo, id sae y enlaces con otras líneas, etc)",
+        "operationId": "addPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DetalleLinea"
+            }
+          }
+        ],
+        "responses": {
+          "100": {
+            "description": "Detalle de linea obtenida",
+            "schema": {
+              "$ref": "#/definitions/HeaderSuccess"
+            }
+          },
+          "200": {
+            "description": "Success"
+          },
+          "410": {
+            "description": "Error en Parametros",
+            "schema": {
+              "$ref": "#/definitions/HeaderError"
+            }
+          },
+          "510": {
+            "description": "No se logro Operacion",
+            "schema": {
+              "$ref": "#/definitions/HeaderFail"
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "petstore_auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+      "flow": "implicit",
+      "scopes": {
+        "write:pets": "modify pets in your account",
+        "read:pets": "read your pets"
+      }
+    },
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "DetalleLinea": {
+      "type": "object",
+      "required": [
+        "idFront",
+        "country",
+        "state",
+        "cityOrTown",
+        "idLocalCompany",
+        "idBusLine"
+      ],
+      "properties": {
+        "idFront": {
+          "type": "integer",
+          "format": "int64",
+          "example": 100
+        },
+        "country": {
+          "type": "string",
+          "example": "españa"
+        },
+        "state": {
+          "type": "string",
+          "example": "provincia"
+        },
+        "cityOrTown": {
+          "type": "string",
+          "example": "provincia"
+        },
+        "idLocalCompany": {
+          "type": "integer",
+          "format": "int64",
+          "example": 65
+        },
+        "idBusLine": {
+          "type": "integer",
+          "format": "int64",
+          "example": 22
+        }
+      },
+      "xml": {
+        "name": "DetalleLinea"
+      }
+    },
+    "HeaderSuccess": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64",
+          "example": "100"
+        },
+        "message": {
+          "type": "string",
+          "example": "Detalle de operacion Obtenido"
+        },
+        "status": {
+          "type": "string",
+          "example": "OK"
+        }
+      }
+    },
+    "HeaderFail": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64",
+          "example": "510"
+        },
+        "message": {
+          "type": "string",
+          "example": "No se logro Operacion"
+        },
+        "status": {
+          "type": "string",
+          "example": "Error : Falla o Error general de inserción u obtención de datos en tiempo de ejecución en el servidor"
+        }
+      }
+    },
+    "HeaderError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int64",
+          "example": "410"
+        },
+        "message": {
+          "type": "string",
+          "example": "Error en parametros"
+        },
+        "status": {
+          "type": "string",
+          "example": "Error : Falla o Error General del Cliente por falta de datos o formato"
+        }
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Link a documentacion extra",
+    "url": "http://google.com"
+  }
+}
