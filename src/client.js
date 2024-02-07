@@ -15,24 +15,17 @@ const getLineasFromMongoGTFS = async (params) => {
     useUnifiedTopology: true,
   });
   
-  let pipeline = [
+  const pipeline = [
     {
-      $lookup: {
-        from: "routes",
-        localField: "route_id",
-        foreignField: "route_id",
-        as: "routes"
+      $project: {
+        _id:0,
+        agency_id: 1,
+        route_color: 1,
+        route_long_name: 1,
       }
     },
-    {
-      $match: {
-        route_id: params.idBusSAE,
-      },
-    },
-    {
-      $limit: 1,
-    },
-  ]
+    { $unwind : "$agency_id" }
+  ];
 
   try {
     console.log(`Intentando conectar a ${url}`)
@@ -40,11 +33,12 @@ const getLineasFromMongoGTFS = async (params) => {
     console.log("Conectado!");
 
     const database = client.db(mongoDbName);
-    const collection = database.collection("TRIPS_GTFS");
+    const collection = database.collection("ROUTES_GTFS");
     console.log(`filtrando por: ${JSON.stringify(pipeline)}`);
     const resultado = await collection.aggregate(pipeline).toArray();
-    console.log(">>>> Imprime resultado", resultado);
+    //console.log(">>>> Imprime resultado", resultado);
 
+    return JSON.parse(JSON.stringify(resultado));
   } catch (err) {
     console.log(`Error al intentar consultar a Mongo ${err}`);
     return err;

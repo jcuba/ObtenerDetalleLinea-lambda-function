@@ -104,20 +104,37 @@ const parseAndCreateObjectGTFS = async (params) => {
 
 const formatResponseGTFS = (data) => {
   let response = [];
-  console.log("detalleLineas: ", data[0].lineas)
-  data[0].lineas.forEach((eachBusLine) =>{
-    let item = {
-      idBusSAE: eachBusLine?.agency_id ?? null,
-      color: eachBusLine?.route_color ?? null,
-      desLocalCompany: null,
-      localCompany: null,
+  data.forEach((eachBusLine) => {
+    let busLines = {
+      busLine: [{
+      idBusSAE:eachBusLine?.agency_id ?? null,
+      color: "#" + eachBusLine?.route_color ?? null,
+      distance: null,
+      outTrip:([{features:[{
+        type: "Feature",
+        properties:{
+          node:null,
+          idBusStop: eachBusLine?.stop_id ?? null,
+          idBusSAE:eachBusLine?.agency_id ?? null,
+          color: "#" + eachBusLine?.route_color ?? null,
+          desBusStop: eachBusLine?.route_long_name ?? null,
+          idBusLine: eachBusLine?.agency_id ?? null,
+          busLineCrossing: null
+        },
+        geometry:{
+          type: "MultiLineString",
+          coordinates: [eachBusLine?.stop_lang, eachBusLine?.stop_lon],
+        }
+      }]
+    }]),
+      //backTrip:null
+    }]
     }
-    response.push(item)
+    response.push(busLines);
+    //console.log("response: ", busLine);
   })
-  return response;
+  return  response;
 };
-
-
 
 
 /**
